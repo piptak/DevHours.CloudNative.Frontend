@@ -1,0 +1,54 @@
+{
+  "name": "DevHours.CloudNative.Frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-cli serve --mode=development --env development --open --hot",
+    "build": "webpack --mode=production --env production --progress",
+    "lint": "eslint src/**/*.{ts,tsx} --quiet --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaroslawParadysz/DevHours.CloudNative.Frontend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JaroslawParadysz/DevHours.CloudNative.Frontend/issues"
+  },
+  "homepage": "https://github.com/JaroslawParadysz/DevHours.CloudNative.Frontend#readme",
+  "dependencies": {
+    "add": "^2.0.6",
+    "node-sass": "^6.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
+    "@types/html-webpack-plugin": "^3.2.6",
+    "@types/node": "^16.4.8",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "@types/webpack": "^5.28.0",
+    "@types/webpack-dev-server": "^3.11.5",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
+    "css-loader": "^6.2.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.2.13",
+    "html-webpack-plugin": "^5.3.2",
+    "style-loader": "^3.2.1",
+    "ts-loader": "^9.2.4",
+    "ts-node": "^10.1.0",
+    "tsconfig-paths-webpack-plugin": "^3.5.1",
+    "typescript": "^4.3.5",
+    "webpack": "^5.47.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
