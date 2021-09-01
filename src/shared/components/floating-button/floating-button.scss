@@ -1,0 +1,13 @@
+.floating-button {
+    position: fixed;
+    top: 50%;
+    color: $white;
+    transition: right .5s ease-in-out, background-color 1s;
+    background-color: $pallet-info-dark;
+    box-sizing: border-box;
+    z-index: 100;
+    &:hover {
+        right: 0 !important;
+        background-color: $pallet-primary-light;
+    }
+}

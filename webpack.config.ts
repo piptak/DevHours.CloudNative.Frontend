@@ -21,8 +21,10 @@ const webpackConfig = (): Configuration => ({
   },
   output: {
     path: path.join(__dirname, "/build"),
-    filename: "build.js",
+    filename: "bundle.js",
+    publicPath: '/',
   },
+  devtool: 'eval-cheap-source-map',
   module: {
     rules: [
       {
@@ -35,7 +37,17 @@ const webpackConfig = (): Configuration => ({
       },
       {
         test: /\.s?css$/,
-        use: ["style-loader", "css-loader"],
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+          {
+            loader: 'sass-resources-loader',
+            options: {
+              resources: './src/assets/styles/_variables.scss'
+            },
+          },
+        ],
       },
     ],
   },

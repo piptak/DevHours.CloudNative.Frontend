@@ -1,0 +1,33 @@
+.navbar-paper {
+    background-color: $pallet-info-dark;
+    color: $white;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 0px 0px 0px 0px;
+}
+
+.navbar-button {
+    color: $white;
+}
+
+.navbar-list-item {
+    padding: 0px;
+}
+
+.navbar-link {
+    width: 100%;
+    display: block;
+    padding: 10px;
+    color: $black;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 1s;
+}
+
+.navbar-link:hover {
+    background-color: $pallet-info-dark;
+}
+
+.navbar-link:hover .navbar-link:visited {    
+    text-decoration: none;
+}

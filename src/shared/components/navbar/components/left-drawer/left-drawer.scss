@@ -1,0 +1,31 @@
+.drawer-list-item {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.drawer-list-item-link {
+    width: 100%;
+    display: block;
+    text-decoration: none;
+    color: $black;
+    transition: background-color 1s;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.drawer-list-item-link:hover .drawer-list-item-link:visited {
+    text-decoration: none;
+}
+
+.drawer-list-item-link:hover {
+    background-color: $pallet-info-dark;
+}
+
+.drawer-text {
+    color: $pallet-info-dark;
+    padding: 4px;
+}

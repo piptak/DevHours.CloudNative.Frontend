@@ -1,6 +1,5 @@
-export type Booking = {
+import { BookingDetails } from "./BookingDetails";
+
+export interface Booking extends BookingDetails {
     id: number,
-    startDate: Date,
-    endDate: Date,
-    roomId: number
 }
