@@ -5,11 +5,12 @@ import ProductCreator from './components/product-creator/ProductCreator';
 import ProductContainer from './components/product-container/ProductContainer';
 
 import './Products.scss';
+import { useAppSelector } from './../../App/hooks';
 
 
 
 const Products: React.FC = () => {
-    const products: Product[] = [];
+    const products = useAppSelector(state => state.products);
 
     return (
         <Grid item container

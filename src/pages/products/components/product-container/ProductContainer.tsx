@@ -6,11 +6,14 @@ import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 import { Product } from "../../../../features/product-slice/Product";
 
 import './ProductContainer.scss'
+import { useAppDispatch } from "./../../../../App/hooks";
+import { deleteOne, updateOne } from "./../../../../features/product-slice/ProductSlice";
 
 const PostContainer: React.FC<Product> = (product: Product) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
     const [productDescription, setProductDescription] = useState<string>('');
- 
+    
+    const dispatch = useAppDispatch();
 
 
     const handleEditClicked = () => {
@@ -19,11 +22,12 @@ const PostContainer: React.FC<Product> = (product: Product) => {
     }
 
     const handleDeleteClicked = () => {
+        dispatch(deleteOne(product.id));
         return;
     }
 
     const handleSaveClicked = () => {
-        
+        dispatch(updateOne({...product, description: productDescription}));
         setEditMode(false);
         setProductDescription('');
     }
