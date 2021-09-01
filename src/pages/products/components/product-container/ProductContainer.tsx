@@ -7,7 +7,7 @@ import { Product } from "../../../../features/product-slice/Product";
 
 import './ProductContainer.scss'
 import { useAppDispatch } from "./../../../../App/hooks";
-import { deleteOne, updateOne } from "./../../../../features/product-slice/ProductSlice";
+import { deleteOne, updateOne } from "./../../../../features/product-slice/ProductAdapterSlice";
 
 const PostContainer: React.FC<Product> = (product: Product) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);

@@ -3,7 +3,7 @@ import { Product } from "./Product";
 
 const initialState: Product[] = [{ id: nanoid(), description: 'DevHours first product' }];
 
-export const productSlize = createSlice({
+export const productSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
@@ -22,4 +22,4 @@ export const productSlize = createSlice({
     }
 });
 
-export const { addOne, updateOne, deleteOne } = productSlize.actions;
+export const { addOne, updateOne, deleteOne } = productSlice.actions;

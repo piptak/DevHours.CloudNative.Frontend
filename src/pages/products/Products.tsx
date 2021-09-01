@@ -6,11 +6,12 @@ import ProductContainer from './components/product-container/ProductContainer';
 
 import './Products.scss';
 import { useAppSelector } from './../../App/hooks';
+import { productSelectors } from './../../features/product-slice/ProductAdapterSlice';
 
 
 
 const Products: React.FC = () => {
-    const products = useAppSelector(state => state.products);
+    const products = useAppSelector(productSelectors.selectAll);
 
     return (
         <Grid item container

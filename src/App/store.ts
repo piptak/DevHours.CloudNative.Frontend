@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { productSlize } from "./../features/product-slice/ProductSlice";
+import { productAdapterSlice } from "./../features/product-slice/ProductAdapterSlice";
 
 export const store = configureStore({
     reducer: {
-        products: productSlize.reducer
+        //products: productSlice.reducer
+        products: productAdapterSlice.reducer
     }
 });
 
