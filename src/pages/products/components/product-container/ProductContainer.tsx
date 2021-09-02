@@ -27,7 +27,7 @@ const PostContainer: React.FC<Product> = (product: Product) => {
     }
 
     const handleSaveClicked = () => {
-        dispatch(updateOne({...product, description: productDescription}));
+        dispatch(updateOne({ id: product.id, changes: { ...product, description: productDescription }}));
         setEditMode(false);
         setProductDescription('');
     }

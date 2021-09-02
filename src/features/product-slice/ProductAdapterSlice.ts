@@ -1,7 +1,6 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./../../App/store";
 import { Product } from "./Product";
-import { productSlice } from "./ProductSlice";
 
 const productAdapter = createEntityAdapter<Product>({
     selectId: product => product.id,
@@ -20,4 +19,4 @@ export const productAdapterSlice = createSlice({
     }
 });
 
-export const { addOne, updateOne, deleteOne } = productSlice.actions;
+export const { addOne, updateOne, deleteOne } = productAdapterSlice.actions;
