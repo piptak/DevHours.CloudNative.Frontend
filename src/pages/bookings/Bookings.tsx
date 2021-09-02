@@ -25,6 +25,7 @@ import FloatingButton from '../../shared/components/floating-button/floating-but
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import './Bookings.scss'
+import { useAddBookingMutation, useDeleteBookingMutation, useGetBookingsQuery, useUpdateBookingMutation } from './../../features/booking-api-slice/BookingApiSlice';
 
 const Bookings: React.FC = () => {
     const urlParams = useParams<{ id: string }>();
@@ -54,15 +55,7 @@ const Bookings: React.FC = () => {
         isLoading: isBookingsQueryLoading,
         isFetching: isBookingsQueryFetching,
         error: bookingsQueryError
-    } = { isLoading: false, data: { values: [], totalCount: 0 }, isFetching: false, error: undefined };
-
-    const [
-        deleteBooking,
-        {
-            isLoading: isDeleteBookingMutationLoading,
-            error: errorDeleteBookingMutation
-        }
-    ] = [{deleteBooking: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
+    } = useGetBookingsQuery({ roomId: roomId, skip: pageSize * pageNumber, take: pageSize })
 
     const [
         addBooking,
@@ -70,22 +63,29 @@ const Bookings: React.FC = () => {
             isLoading: isAddBookingMutationLoading,
             error: addBookingMutationError
         }
-    ] = [{addBooking: (id: number) => { return; } }, { isLoading: false, error: undefined }];
+    ] = useAddBookingMutation();
 
     const [
         updateBooking,
         {
             isLoading: isUpdateBookingMutationLoading,
-            error: updateBookingMutationLoading
+            error: updateBookingMutationError
         }
-    ] = [{addBooking: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
+    ] = useUpdateBookingMutation();
 
+    const [
+        deleteBooking,
+        {
+            isLoading: isDeleteBookingMutationLoading,
+            error: errorDeleteBookingMutation
+        }
+    ] = useDeleteBookingMutation();
 
     useEffect(() => {
         const error = bookingsQueryError
             ?? errorDeleteBookingMutation
             ?? addBookingMutationError
-            ?? updateBookingMutationLoading;
+            ?? updateBookingMutationError;
 
         if (error) {
             if (isApiError(error)) {
@@ -100,7 +100,7 @@ const Bookings: React.FC = () => {
         bookingsQueryError,
         errorDeleteBookingMutation,
         addBookingMutationError,
-        updateBookingMutationLoading,
+        updateBookingMutationError,
     ]);
 
     useEffect(() => {
@@ -131,6 +131,7 @@ const Bookings: React.FC = () => {
     }
 
     const handleDeleteBooking = (bookingId: number) => {
+        deleteBooking(bookingId);
         return;
     }
 
@@ -141,11 +142,16 @@ const Bookings: React.FC = () => {
 
     const handleSaveDialog = (data: BookingDetails) => {
         if (bookingIdToEdit) {
-            
+            updateBooking({ id: bookingIdToEdit, roomId: roomId, ...data })
+            .then(() => {
+                setOpenBookingDialog(false);
+            })
             return;
         }
-        const bookingToAdd: Booking = { id: 0, roomId: roomId, ...data };
-        
+        addBooking({roomId: roomId, ...data})
+        .then(() => {
+          setOpenBookingDialog(false);
+        })
     }
 
     const handleEditBooking = (booking: Booking) => {

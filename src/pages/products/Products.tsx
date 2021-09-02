@@ -1,4 +1,3 @@
-import { Product } from './../../features/product-slice/Product';
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import ProductCreator from './components/product-creator/ProductCreator';
