@@ -1,21 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-
 import './styles.scss';
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import IRoute from "../router/interfaces/route";
 import routes from "../router/routes";
 import Navbar from "../shared/components/navbar/Navbar";
-import { Box, Grid, Paper, StylesProvider, Typography } from "@material-ui/core";
+import { Grid, StylesProvider } from "@material-ui/core";
+import React from 'react';
 
 const App: React.FC = () => {
-    const elementRef = useRef<HTMLDivElement>();
-    const [right, setRight] = useState<number>(0);
-
-    useEffect(() => {
-        if (elementRef.current) {
-            setRight(elementRef.current.offsetHeight);
-        }
-    }, [elementRef, right]);
 
     return (
         <>
