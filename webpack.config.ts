@@ -1,12 +1,12 @@
 import path from "path";
 import { Configuration as WebpackConfiguration, DefinePlugin } from "webpack";
-import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import WebpackDevServer from "webpack-dev-server";
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 interface Configuration extends WebpackConfiguration {
-    devServer?: WebpackDevServerConfiguration;
+    devServer?: WebpackDevServer.Configuration;
   }
 
 const webpackConfig = (): Configuration => ({
@@ -52,6 +52,12 @@ const webpackConfig = (): Configuration => ({
     ],
   },
   devServer: {
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
     port: 4200,
     open: true,
     historyApiFallback: true,
