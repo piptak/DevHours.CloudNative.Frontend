@@ -29,6 +29,12 @@ import { Link } from 'react-router-dom';
 const Rooms: React.FC = () => {
     const [pageSize, setPageSize] = useState(2);
     const [page, setPage] = useState(0);
+    const [openErrorDialog, setOpenErrorDialog] = useState(false);
+    const [openAddNewRoomDialog, setOpenAddNewRoomDialog] = useState(false);
+    const [openEditRoomDialog, setOpenEditRoomDialog] = useState(false);
+    const [roomToEdit, setRoomToEdit] = useState<Room>(undefined);
+    const [apiError, setApiError] = useState<ApiError>();
+    const [isAnyQueryLoading, setIsAnyQueryLoading] = useState<boolean>();
 
     const {
         data: rooms = { totalCount: 0, values: [] },
@@ -36,12 +42,6 @@ const Rooms: React.FC = () => {
         isFetching,
         error: getRoomsError
     } = { isLoading: false, data: { values: [], totalCount: 0 }, isFetching: false, error: undefined };
-
-    const [openErrorDialog, setOpenErrorDialog] = useState(false);
-    const [openAddNewRoomDialog, setOpenAddNewRoomDialog] = useState(false);
-    const [openEditRoomDialog, setOpenEditRoomDialog] = useState(false);
-    const [roomToEdit, setRoomToEdit] = useState<Room>(undefined);
-    const [apiError, setApiError] = useState<ApiError>();
 
     const [
         addRoom,
@@ -52,6 +52,18 @@ const Rooms: React.FC = () => {
     ] = [{addRoom: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
     const [editRoom, { isLoading: isEditRoomLoading, error: editRoomError }] = [{addRoom: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
     const [deleteRoom, { isLoading: isDeleteRoomLoading, error: deleteRoomError }] = [{deleteRoom: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
+
+    const handleSaveNewRoom = (newRoomDetails: RoomDetails) => {
+        return;
+    };
+
+    const handleUpdateRoom = (roomDetails: RoomDetails) => {
+        return;
+    }
+
+    const handleDeleteRoom = (roomId: number) => {
+        return;
+    }
 
     useEffect(() => {
         if (getRoomsError
@@ -73,7 +85,7 @@ const Rooms: React.FC = () => {
         }
     }, [getRoomsError, addNewRoomError, editRoomError, deleteRoomError,])
 
-    const [isAnyQueryLoading, setIsAnyQueryLoading] = useState<boolean>();
+
     useEffect(() => {
         const isLoading = areRoomsLoading || isFetching || isDeleteRoomLoading;
         setIsAnyQueryLoading(isLoading);
@@ -83,16 +95,11 @@ const Rooms: React.FC = () => {
         isDeleteRoomLoading,
     ]);
 
-
+    const handleChangePage = (event: unknown, newPage: number) => { setPage(newPage); }
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => { setPageSize(parseInt(event.target.value)); }
     const handleCloseErrorDialogClicked = () => { setOpenErrorDialog(false) }
     const handleAddNewRoom = () => { setOpenAddNewRoomDialog(true); }
     const handleOnCancelNewRoomDialog = () => { setOpenAddNewRoomDialog(false); }
-    const handleOnSaveNewRoomDialog = (newRoomDetails: RoomDetails) => {
-        return;
-    };
-
-    const handleChangePage = (event: unknown, newPage: number) => { setPage(newPage); }
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => { setPageSize(parseInt(event.target.value)); }
 
     const handleEditClicked = (room: Room) => {
         console.log(isEditRoomLoading);
@@ -103,13 +110,7 @@ const Rooms: React.FC = () => {
         setRoomToEdit(undefined);
         setOpenEditRoomDialog(false);
     }
-    const handleOnSaveEditRoom = (roomDetails: RoomDetails) => {
-        return;
-    }
 
-    const handleDeleteRoom = (roomId: number) => {
-        return;
-    }
 
     return (
         <>
@@ -127,7 +128,7 @@ const Rooms: React.FC = () => {
                                     <RoomDialog
                                         open={openAddNewRoomDialog}
                                         onCancel={handleOnCancelNewRoomDialog}
-                                        onSave={handleOnSaveNewRoomDialog}
+                                        onSave={handleSaveNewRoom}
                                         isLoading={isAddNewRoomLoading}
                                         roomDitails={{ description: "Room description..." }}
                                         dialogTitle="Add new room"
@@ -135,7 +136,7 @@ const Rooms: React.FC = () => {
                                     <RoomDialog
                                         open={openEditRoomDialog}
                                         onCancel={handleOnCancelEditRoom}
-                                        onSave={handleOnSaveEditRoom}
+                                        onSave={handleUpdateRoom}
                                         isLoading={isEditRoomLoading}
                                         roomDitails={{ ...roomToEdit }}
                                         dialogTitle="Edit room"

@@ -5,27 +5,25 @@ import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import { Product } from "../../../../features/product-slice/Product";
 
-import './ProductContainer.scss'
+import './ProductListItem.scss'
 
-const PostContainer: React.FC<Product> = (product: Product) => {
+const ProductListItem: React.FC<Product> = (product: Product) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
     const [productDescription, setProductDescription] = useState<string>('');
  
+    const handleUpdateProduct = () => {
+        
+        setEditMode(false);
+        setProductDescription('');
+    }
 
+    const handleDeleteProduct = () => {
+        return;
+    }
 
     const handleEditClicked = () => {
         setEditMode(true);
         setProductDescription(product.description);
-    }
-
-    const handleDeleteClicked = () => {
-        return;
-    }
-
-    const handleSaveClicked = () => {
-        
-        setEditMode(false);
-        setProductDescription('');
     }
 
     const handleCancelClicked = () => {
@@ -52,7 +50,7 @@ const PostContainer: React.FC<Product> = (product: Product) => {
                         <IconButton disabled={isEditMode} onClick={handleEditClicked}>
                             <Settings />
                         </IconButton>
-                        <IconButton disabled={isEditMode} onClick={handleDeleteClicked}>
+                        <IconButton disabled={isEditMode} onClick={handleDeleteProduct}>
                             <RemoveCircleOutlineIcon />
                         </IconButton>
                     </Grid>
@@ -71,7 +69,7 @@ const PostContainer: React.FC<Product> = (product: Product) => {
                                     />
                                 </Grid>
                                 <Grid item container justifyContent="flex-end">
-                                    <Button onClick={handleSaveClicked}>Save</Button>
+                                    <Button onClick={handleUpdateProduct}>Save</Button>
                                     <Button onClick={handleCancelClicked}>Cancel</Button>
                                 </Grid>
                             </> :
@@ -87,4 +85,4 @@ const PostContainer: React.FC<Product> = (product: Product) => {
     );
 }
 
-export default PostContainer;
+export default ProductListItem;

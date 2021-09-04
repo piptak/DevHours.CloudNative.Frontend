@@ -3,7 +3,7 @@ import React from 'react';
 import { Product } from './../../features/product-slice/Product';
 import { Grid } from '@material-ui/core';
 import ProductCreator from './components/product-creator/ProductCreator';
-import ProductContainer from './components/product-container/ProductContainer';
+import ProductListItem from './components/product-list-item/ProductListItem';
 
 import './Products.scss';
 
@@ -26,7 +26,7 @@ const Products: React.FC = () => {
             {
                 products.map((product) => (
                     <Grid item container key={product.id} className="product-list-item">
-                        <ProductContainer {...product} />
+                        <ProductListItem {...product} />
                     </Grid>
                 ))
             }
