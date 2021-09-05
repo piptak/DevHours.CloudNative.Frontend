@@ -3,7 +3,8 @@
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import React, { useEffect, useState } from 'react';
-import { Add, Settings } from '@material-ui/icons';
+import Add from '@material-ui/icons/Add';
+import Settings from '@material-ui/icons/Settings';
 import ApiError, { isApiError } from '../../types/ApiError';
 import ErrorDialog from '../../shared/components/error-dialog/ErrorDialog';
 import { Booking } from '../../types/Booking';

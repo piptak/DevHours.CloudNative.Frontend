@@ -6,7 +6,9 @@ import React, { useEffect, useState } from 'react';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import './Rooms.scss';
-import { AccessTime, Add, Settings } from '@material-ui/icons';
+import AccessTime from '@material-ui/icons/AccessTime';
+import Add from '@material-ui/icons/Add';
+import Settings from '@material-ui/icons/Settings';
 import FloatingButton from '../../shared/components/floating-button/floating-button';
 import RoomDialog from './components/room-dialog/RoomDialog';
 import { Room } from '../../types/Room';

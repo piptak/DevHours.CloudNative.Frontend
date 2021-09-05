@@ -1,4 +1,8 @@
-import { Button, Grid, Paper, TextField } from '@material-ui/core';
+
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 import { nanoid } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
 import { useAppDispatch } from '../../../../App/hooks';
