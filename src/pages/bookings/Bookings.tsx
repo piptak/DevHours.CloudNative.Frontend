@@ -1,17 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Paper,
-    Grid,
-    LinearProgress,
-} from '@material-ui/core';
+
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import React, { useEffect, useState } from 'react';
@@ -25,6 +13,18 @@ import FloatingButton from '../../shared/components/floating-button/floating-but
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import './Bookings.scss'
+import { useAddBookingMutation, useDeleteBookingMutation, useGetBookingsQuery, useUpdateBookingMutation } from '../../features/product-slice/api-slice/apiSlice';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import TableContainer from '@material-ui/core/TableContainer';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import TableBody from '@material-ui/core/TableBody';
+import IconButton from '@material-ui/core/IconButton';
+import TablePagination from '@material-ui/core/TablePagination';
+import Paper from '@material-ui/core/Paper';
 
 const Bookings: React.FC = () => {
     const urlParams = useParams<{ id: string }>();
@@ -53,8 +53,8 @@ const Bookings: React.FC = () => {
         data: bookings = { values: [], totalCount: 0 },
         isLoading: isBookingsQueryLoading,
         isFetching: isBookingsQueryFetching,
-        error: bookingsQueryError
-    } = { isLoading: false, data: { values: [], totalCount: 0 }, isFetching: false, error: undefined };
+        error: bookingsQueryError  
+    } = useGetBookingsQuery({ roomId: roomId, skip: pageSize * pageNumber, take: pageSize });
 
     const [
         deleteBooking,
@@ -62,7 +62,7 @@ const Bookings: React.FC = () => {
             isLoading: isDeleteBookingMutationLoading,
             error: errorDeleteBookingMutation
         }
-    ] = [{deleteBooking: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
+    ] = useDeleteBookingMutation();
 
     const [
         addBooking,
@@ -70,7 +70,7 @@ const Bookings: React.FC = () => {
             isLoading: isAddBookingMutationLoading,
             error: addBookingMutationError
         }
-    ] = [{addBooking: (id: number) => { return; } }, { isLoading: false, error: undefined }];
+    ] = useAddBookingMutation();
 
     const [
         updateBooking,
@@ -78,7 +78,7 @@ const Bookings: React.FC = () => {
             isLoading: isUpdateBookingMutationLoading,
             error: updateBookingMutationLoading
         }
-    ] = [{addBooking: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
+    ] = useUpdateBookingMutation();
 
 
     useEffect(() => {
@@ -131,7 +131,8 @@ const Bookings: React.FC = () => {
     }
 
     const handleDeleteBooking = (bookingId: number) => {
-        return;
+        setPageNumber(0);
+        deleteBooking(bookingId);
     }
 
     const handleCloseDialog = () => {
@@ -141,10 +142,14 @@ const Bookings: React.FC = () => {
 
     const handleSaveDialog = (data: BookingDetails) => {
         if (bookingIdToEdit) {
-            
-            return;
+            updateBooking({id: bookingIdToEdit, roomId: roomId, ...data}).then(() => {
+                setOpenBookingDialog(false);
+            })
         }
         const bookingToAdd: Booking = { id: 0, roomId: roomId, ...data };
+        addBooking(bookingToAdd).then(() => {
+            setOpenBookingDialog(false);
+        });
         
     }
 
@@ -169,7 +174,6 @@ const Bookings: React.FC = () => {
     return (
         <>
             {
-
                 <>
                     {
                         isAnyQueryLoadingOrFetching ?
@@ -215,8 +219,8 @@ const Bookings: React.FC = () => {
                                                         bookings.values.map((booking) => (
                                                             <TableRow key={booking.id}>
                                                                 <TableCell>{booking.roomId}</TableCell>
-                                                                <TableCell>{moment(booking.startDate).format("YYYY-DD-MM hh:mm")}</TableCell>
-                                                                <TableCell>{moment(booking.endDate).format("YYYY-DD-MM hh:mm")}</TableCell>
+                                                                <TableCell>{moment(booking.startDate).format("YYYY-MM-DD hh:mm")}</TableCell>
+                                                                <TableCell>{moment(booking.endDate).format("YYYY-MM-DD hh:mm")}</TableCell>
                                                                 <TableCell align="center">
                                                                     <IconButton onClick={() => handleEditBooking(booking)}>
                                                                         <Settings />

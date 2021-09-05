@@ -1,16 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-    Grid,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    LinearProgress
-} from '@material-ui/core';
+
 import TableContainer from '@material-ui/core/TableContainer';
 
 import React, { useEffect, useState } from 'react';
@@ -25,6 +14,17 @@ import { RoomDetails } from '../../types/RoomDetails';
 import ErrorDialog from './../../shared/components/error-dialog/ErrorDialog';
 import ApiError, { isApiError } from './../../types/ApiError';
 import { Link } from 'react-router-dom';
+import { useAddRoomMutation, useDeleteRoomMutation, useGetRoomsQuery, useUpdateRoomMutation } from '../../features/product-slice/api-slice/apiSlice';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import TableBody from '@material-ui/core/TableBody';
+import IconButton from '@material-ui/core/IconButton';
+import TablePagination from '@material-ui/core/TablePagination';
+import Paper from '@material-ui/core/Paper';
 
 const Rooms: React.FC = () => {
     const [pageSize, setPageSize] = useState(2);
@@ -37,11 +37,11 @@ const Rooms: React.FC = () => {
     const [isAnyQueryLoading, setIsAnyQueryLoading] = useState<boolean>();
 
     const {
-        data: rooms = { totalCount: 0, values: [] },
-        isLoading: areRoomsLoading,
+        data: rooms = { values: [], totalCount: 0 },
+        isLoading: isRoomsQueryLoading,
         isFetching,
         error: getRoomsError
-    } = { isLoading: false, data: { values: [], totalCount: 0 }, isFetching: false, error: undefined };
+    } = useGetRoomsQuery({ skip: pageSize * page, take: pageSize });
 
     const [
         addRoom,
@@ -49,20 +49,37 @@ const Rooms: React.FC = () => {
             isLoading: isAddNewRoomLoading,
             error: addNewRoomError
         }
-    ] = [{addRoom: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
-    const [editRoom, { isLoading: isEditRoomLoading, error: editRoomError }] = [{addRoom: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
-    const [deleteRoom, { isLoading: isDeleteRoomLoading, error: deleteRoomError }] = [{deleteRoom: ({id: number}) => { return; } }, { isLoading: false, error: undefined }];
+    ] = useAddRoomMutation();
+
+    const [
+        updateRoom,
+        {
+            isLoading: isEditRoomLoading,
+            error: editRoomError
+        }
+    ] = useUpdateRoomMutation();
+
+    const [
+        deleteRoom,
+        {
+            isLoading: isDeleteRoomLoading,
+            error: deleteRoomError
+        }
+    ] = useDeleteRoomMutation();
 
     const handleSaveNewRoom = (newRoomDetails: RoomDetails) => {
-        return;
+        addRoom(newRoomDetails).then(() => setOpenAddNewRoomDialog(false));
     };
 
     const handleUpdateRoom = (roomDetails: RoomDetails) => {
-        return;
+        updateRoom({id: roomToEdit.id, ...roomDetails}).then(() => {
+            setOpenEditRoomDialog(false);
+        })
     }
 
     const handleDeleteRoom = (roomId: number) => {
-        return;
+        setPage(0);
+        deleteRoom(roomId);
     }
 
     useEffect(() => {
@@ -87,10 +104,10 @@ const Rooms: React.FC = () => {
 
 
     useEffect(() => {
-        const isLoading = areRoomsLoading || isFetching || isDeleteRoomLoading;
+        const isLoading = isRoomsQueryLoading || isFetching || isDeleteRoomLoading;
         setIsAnyQueryLoading(isLoading);
     }, [
-        areRoomsLoading,
+        isRoomsQueryLoading,
         isFetching,
         isDeleteRoomLoading,
     ]);

@@ -1,14 +1,18 @@
 import { Button, Grid, Paper, TextField } from '@material-ui/core';
+import { nanoid } from '@reduxjs/toolkit';
 import React, { useState } from 'react';
+import { useAppDispatch } from '../../../../App/hooks';
+import { addOne } from '../../../../features/product-slice/productSliceWithAdapter';
 
 import './ProductCreator.scss'
 
 
 const ProductCreator: React.FC = () => {
     const [productDescription, setProductDescription] = useState<string>('');
+    const dispatch = useAppDispatch();
 
     const handleAddProduct = () => {
-        
+        dispatch(addOne({ id: nanoid(), description: productDescription }));
         setProductDescription('');
     }
 

@@ -1,24 +1,28 @@
 import React, { useState } from "react";
 import { Button, Divider, Grid, IconButton, Paper, TextField, Typography } from "@material-ui/core";
-import { Settings } from "@material-ui/icons";
+
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import { Product } from "../../../../features/product-slice/Product";
 
 import './ProductListItem.scss'
+import { useAppDispatch } from "../../../../App/hooks";
+import { removeOne, updateOne } from "../../../../features/product-slice/productSliceWithAdapter";
+import { Settings } from "@material-ui/icons";
 
 const ProductListItem: React.FC<Product> = (product: Product) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);
     const [productDescription, setProductDescription] = useState<string>('');
+    const dispatch = useAppDispatch();
  
     const handleUpdateProduct = () => {
-        
+        dispatch(updateOne({id: product.id, changes:{ description: productDescription} }));
         setEditMode(false);
         setProductDescription('');
     }
 
     const handleDeleteProduct = () => {
-        return;
+        dispatch(removeOne(product.id));
     }
 
     const handleEditClicked = () => {
