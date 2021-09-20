@@ -1,16 +1,18 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+
+import { Product } from './../../features/product-slice/Product';
 import ProductCreator from './components/product-creator/ProductCreator';
-import ProductContainer from './components/product-container/ProductContainer';
+import ProductListItem from './components/product-list-item/ProductListItem';
 
 import './Products.scss';
-import { useAppSelector } from './../../App/hooks';
-import { productSelectors } from './../../features/product-slice/ProductAdapterSlice';
+import { useAppSelector } from '../../App/hooks';
+import { productSelectors } from '../../features/product-slice/productSliceWithAdapter';
+import Grid from '@material-ui/core/Grid';
 
 
 
 const Products: React.FC = () => {
-    const products = useAppSelector(productSelectors.selectAll);
+    const products: Product[] = useAppSelector(productSelectors.selectAll);
 
     return (
         <Grid item container
@@ -26,7 +28,7 @@ const Products: React.FC = () => {
             {
                 products.map((product) => (
                     <Grid item container key={product.id} className="product-list-item">
-                        <ProductContainer {...product} />
+                        <ProductListItem {...product} />
                     </Grid>
                 ))
             }

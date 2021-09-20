@@ -1,15 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { bookingApiSlice } from "./../features/booking-api-slice/BookingApiSlice";
-import { productAdapterSlice } from "./../features/product-slice/ProductAdapterSlice";
+import { apiSlice } from "../features/product-slice/api-slice/apiSlice";
+import { productSliceWithAdapter } from "../features/product-slice/productSliceWithAdapter";
+
 
 export const store = configureStore({
     reducer: {
-        //products: productSlice.reducer
-        products: productAdapterSlice.reducer,
-        [bookingApiSlice.reducerPath]: bookingApiSlice.reducer
+        [productSliceWithAdapter.name]: productSliceWithAdapter.reducer,
+        [apiSlice.reducerPath]: apiSlice.reducer
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware()
-        .concat(bookingApiSlice.middleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

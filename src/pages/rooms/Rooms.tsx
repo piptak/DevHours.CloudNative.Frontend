@@ -1,23 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-    Grid,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    LinearProgress
-} from '@material-ui/core';
+
 import TableContainer from '@material-ui/core/TableContainer';
 
 import React, { useEffect, useState } from 'react';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 import './Rooms.scss';
-import { AccessTime, Add, Settings } from '@material-ui/icons';
+import AccessTime from '@material-ui/icons/AccessTime';
+import Add from '@material-ui/icons/Add';
+import Settings from '@material-ui/icons/Settings';
 import FloatingButton from '../../shared/components/floating-button/floating-button';
 import RoomDialog from './components/room-dialog/RoomDialog';
 import { Room } from '../../types/Room';
@@ -25,7 +16,17 @@ import { RoomDetails } from '../../types/RoomDetails';
 import ErrorDialog from './../../shared/components/error-dialog/ErrorDialog';
 import ApiError, { isApiError } from './../../types/ApiError';
 import { Link } from 'react-router-dom';
-import { useAddRoomMutation, useDeleteRoomMutation, useGetRoomsQuery, useUpdateRoomMutation,  } from './../../features/booking-api-slice/BookingApiSlice';
+import { useAddRoomMutation, useDeleteRoomMutation, useGetRoomsQuery, useUpdateRoomMutation } from '../../features/product-slice/api-slice/apiSlice';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Grid from '@material-ui/core/Grid';
+import Table from '@material-ui/core/Table';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
+import TableBody from '@material-ui/core/TableBody';
+import IconButton from '@material-ui/core/IconButton';
+import TablePagination from '@material-ui/core/TablePagination';
+import Paper from '@material-ui/core/Paper';
 
 const Rooms: React.FC = () => {
     const [pageSize, setPageSize] = useState(2);
@@ -35,10 +36,11 @@ const Rooms: React.FC = () => {
     const [openEditRoomDialog, setOpenEditRoomDialog] = useState(false);
     const [roomToEdit, setRoomToEdit] = useState<Room>(undefined);
     const [apiError, setApiError] = useState<ApiError>();
+    const [isAnyQueryLoading, setIsAnyQueryLoading] = useState<boolean>();
 
-    const { 
+    const {
         data: rooms = { values: [], totalCount: 0 },
-        isLoading: areRoomsLoading,
+        isLoading: isRoomsQueryLoading,
         isFetching,
         error: getRoomsError
     } = useGetRoomsQuery({ skip: pageSize * page, take: pageSize });
@@ -55,7 +57,7 @@ const Rooms: React.FC = () => {
         updateRoom,
         {
             isLoading: isEditRoomLoading,
-            error: editRoomError            
+            error: editRoomError
         }
     ] = useUpdateRoomMutation();
 
@@ -66,6 +68,21 @@ const Rooms: React.FC = () => {
             error: deleteRoomError
         }
     ] = useDeleteRoomMutation();
+
+    const handleSaveNewRoom = (newRoomDetails: RoomDetails) => {
+        addRoom(newRoomDetails).then(() => setOpenAddNewRoomDialog(false));
+    };
+
+    const handleUpdateRoom = (roomDetails: RoomDetails) => {
+        updateRoom({id: roomToEdit.id, ...roomDetails}).then(() => {
+            setOpenEditRoomDialog(false);
+        })
+    }
+
+    const handleDeleteRoom = (roomId: number) => {
+        setPage(0);
+        deleteRoom(roomId);
+    }
 
     useEffect(() => {
         if (getRoomsError
@@ -87,23 +104,21 @@ const Rooms: React.FC = () => {
         }
     }, [getRoomsError, addNewRoomError, editRoomError, deleteRoomError,])
 
-    const [isAnyQueryLoading, setIsAnyQueryLoading] = useState<boolean>();
+
     useEffect(() => {
-        const isLoading = areRoomsLoading || isFetching || isDeleteRoomLoading;
+        const isLoading = isRoomsQueryLoading || isFetching || isDeleteRoomLoading;
         setIsAnyQueryLoading(isLoading);
     }, [
-        areRoomsLoading,
+        isRoomsQueryLoading,
         isFetching,
         isDeleteRoomLoading,
     ]);
 
-
+    const handleChangePage = (event: unknown, newPage: number) => { setPage(newPage); }
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => { setPageSize(parseInt(event.target.value)); }
     const handleCloseErrorDialogClicked = () => { setOpenErrorDialog(false) }
     const handleAddNewRoom = () => { setOpenAddNewRoomDialog(true); }
     const handleOnCancelNewRoomDialog = () => { setOpenAddNewRoomDialog(false); }
-
-    const handleChangePage = (event: unknown, newPage: number) => { setPage(newPage); }
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => { setPageSize(parseInt(event.target.value)); }
 
     const handleOnSaveNewRoomDialog = (newRoomDetails: RoomDetails) => {
         setPage(0);
@@ -121,17 +136,7 @@ const Rooms: React.FC = () => {
         setRoomToEdit(undefined);
         setOpenEditRoomDialog(false);
     }
-    const handleOnSaveEditRoom = (roomDetails: RoomDetails) => {        
-        updateRoom({...roomToEdit, description: roomDetails.description})
-        .then(() => {
-            setOpenEditRoomDialog(false);
-        })
 
-    }
-
-    const handleDeleteRoom = (roomId: number) => {
-        deleteRoom({ id: roomId });
-    }
 
     return (
         <>
@@ -149,15 +154,15 @@ const Rooms: React.FC = () => {
                                     <RoomDialog
                                         open={openAddNewRoomDialog}
                                         onCancel={handleOnCancelNewRoomDialog}
-                                        onSave={handleOnSaveNewRoomDialog}
-                                        isLoading={isAddRoomLoading}
+                                        onSave={handleSaveNewRoom}
+                                        isLoading={isAddNewRoomLoading}
                                         roomDitails={{ description: "Room description..." }}
                                         dialogTitle="Add new room"
                                     />
                                     <RoomDialog
                                         open={openEditRoomDialog}
                                         onCancel={handleOnCancelEditRoom}
-                                        onSave={handleOnSaveEditRoom}
+                                        onSave={handleUpdateRoom}
                                         isLoading={isEditRoomLoading}
                                         roomDitails={{ ...roomToEdit }}
                                         dialogTitle="Edit room"
