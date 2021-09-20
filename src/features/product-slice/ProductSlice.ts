@@ -1,25 +1,21 @@
-import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "./Product";
 
-const initialState: Product[] = [{ id: nanoid(), description: 'DevHours first product' }];
+const initialState: Product[] = [{id: nanoid(), description: 'DevHours Product' }];
 
 export const productSlice = createSlice({
     name: 'products',
     initialState,
     reducers: {
-        addOne: (state, action: PayloadAction<Product>) => {
-            state.push(action.payload);
-        },
+        addOne: (state, action: PayloadAction<Product>) => { state.push(action.payload); },
         updateOne: (state, action: PayloadAction<Product>) => {
-            const productToUpdate = state.filter(p => p.id == action.payload.id)[0];
-            if (!productToUpdate) {
-                return;
-            }
-
+            const productToUpdate = state.find(x => x.id == action.payload.id);
             productToUpdate.description = action.payload.description;
         },
-        deleteOne: (state, action: PayloadAction<string>) => (state.filter(p => p.id != action.payload))
+        removeOne: (state, action: PayloadAction<string>) => {
+            return state.filter(x => x.id != action.payload);
+        }
     }
 });
 
-export const { addOne, updateOne, deleteOne } = productSlice.actions;
+export const { addOne, updateOne, removeOne } = productSlice.actions;
