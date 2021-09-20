@@ -82,23 +82,16 @@ const Bookings: React.FC = () => {
         updateBooking,
         {
             isLoading: isUpdateBookingMutationLoading,
-            error: updateBookingMutationError
+            error: updateBookingMutationLoading
         }
     ] = useUpdateBookingMutation();
 
-    const [
-        deleteBooking,
-        {
-            isLoading: isDeleteBookingMutationLoading,
-            error: errorDeleteBookingMutation
-        }
-    ] = useDeleteBookingMutation();
 
     useEffect(() => {
         const error = bookingsQueryError
             ?? errorDeleteBookingMutation
             ?? addBookingMutationError
-            ?? updateBookingMutationError;
+            ?? updateBookingMutationLoading;
 
         if (error) {
             if (isApiError(error)) {
@@ -113,7 +106,7 @@ const Bookings: React.FC = () => {
         bookingsQueryError,
         errorDeleteBookingMutation,
         addBookingMutationError,
-        updateBookingMutationError,
+        updateBookingMutationLoading,
     ]);
 
     useEffect(() => {

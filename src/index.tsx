@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 
 
 import './assets/styles/styles.scss'
-import { store } from "./App/store";
 
 ReactDOM.render(
     <BrowserRouter>

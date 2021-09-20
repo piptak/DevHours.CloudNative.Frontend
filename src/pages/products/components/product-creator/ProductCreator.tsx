@@ -11,7 +11,6 @@ import { addOne } from '../../../../features/product-slice/productSliceWithAdapt
 import './ProductCreator.scss'
 
 
-
 const ProductCreator: React.FC = () => {
     const [productDescription, setProductDescription] = useState<string>('');
     const dispatch = useAppDispatch();
@@ -50,5 +49,3 @@ const ProductCreator: React.FC = () => {
 }
 
 export default ProductCreator;
-
-

@@ -48,7 +48,7 @@ const Rooms: React.FC = () => {
     const [
         addRoom,
         {
-            isLoading: isAddRoomLoading,
+            isLoading: isAddNewRoomLoading,
             error: addNewRoomError
         }
     ] = useAddRoomMutation();
@@ -120,15 +120,8 @@ const Rooms: React.FC = () => {
     const handleAddNewRoom = () => { setOpenAddNewRoomDialog(true); }
     const handleOnCancelNewRoomDialog = () => { setOpenAddNewRoomDialog(false); }
 
-    const handleOnSaveNewRoomDialog = (newRoomDetails: RoomDetails) => {
-        setPage(0);
-        addRoom(newRoomDetails)
-        .then(() => {
-            setOpenAddNewRoomDialog(false);
-        })
-    };
-
     const handleEditClicked = (room: Room) => {
+        console.log(isEditRoomLoading);
         setRoomToEdit(room);
         setOpenEditRoomDialog(true);
     }
