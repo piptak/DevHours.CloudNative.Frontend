@@ -66,7 +66,8 @@ export const apiSlice = createApi({
                 url: `bookings/${body.id}`,
                 method: 'PUT',
                 body
-            })
+            }),
+            invalidatesTags: [{type: 'bookings', id: 'LIST'}]
         })
     })
 });

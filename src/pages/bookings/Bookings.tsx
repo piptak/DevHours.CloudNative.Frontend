@@ -14,7 +14,12 @@ import FloatingButton from '../../shared/components/floating-button/floating-but
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import './Bookings.scss'
-import { useAddBookingMutation, useDeleteBookingMutation, useGetBookingsQuery, useUpdateBookingMutation } from '../../features/product-slice/api-slice/apiSlice';
+import { 
+    useAddBookingMutation,
+    useDeleteBookingMutation,
+    useGetBookingsQuery,
+    useUpdateBookingMutation 
+} from '../../features/product-slice/api-slice/apiSlice';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -142,10 +147,13 @@ const Bookings: React.FC = () => {
     }
 
     const handleSaveDialog = (data: BookingDetails) => {
-        if (bookingIdToEdit) {
-            updateBooking({id: bookingIdToEdit, roomId: roomId, ...data}).then(() => {
+        if (bookingIdToEdit) {            
+            const toUpdate: Booking = {id: bookingIdToEdit, roomId: roomId, ...data};
+            updateBooking(toUpdate)
+            .then(() => {
                 setOpenBookingDialog(false);
             })
+            return;
         }
         const bookingToAdd: Booking = { id: 0, roomId: roomId, ...data };
         addBooking(bookingToAdd).then(() => {
