@@ -1,9 +1,8 @@
-import { 
-    Button,
-    Grid,
-    IconButton,
-    Paper,
-    Typography} from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import Menu from "@material-ui/icons/Menu";
 import React, { useEffect, useState } from "react";
 import NavbarContainer from "./components/navbar-container/navbar-container";

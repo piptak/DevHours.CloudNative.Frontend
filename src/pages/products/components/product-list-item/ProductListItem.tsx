@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Button, Divider, Grid, IconButton, Paper, TextField, Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 

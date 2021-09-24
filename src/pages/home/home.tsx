@@ -1,7 +1,7 @@
 import Grid from "@material-ui/core/Grid";
 import React from "react";
 import IPage from "../../router/interfaces/page";
-import { Typography } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 
 import './home.scss'
 
