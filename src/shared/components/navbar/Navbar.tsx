@@ -4,7 +4,7 @@ import {
     IconButton,
     Paper,
     Typography} from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
+import Menu from "@material-ui/icons/Menu";
 import React, { useEffect, useState } from "react";
 import NavbarContainer from "./components/navbar-container/navbar-container";
 import NavbarItem from "./components/navbar-item/navbar-item";

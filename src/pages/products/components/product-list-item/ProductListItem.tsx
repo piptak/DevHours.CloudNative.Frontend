@@ -8,7 +8,7 @@ import { Product } from "../../../../features/product-slice/Product";
 import './ProductListItem.scss'
 import { useAppDispatch } from "../../../../App/hooks";
 import { removeOne, updateOne } from "../../../../features/product-slice/productSliceWithAdapter";
-import { Settings } from "@material-ui/icons";
+import Settings from "@material-ui/icons/Settings";
 
 const ProductListItem: React.FC<Product> = (product: Product) => {
     const [isEditMode, setEditMode] = useState<boolean>(false);

@@ -1,4 +1,6 @@
-import { Home, LocalHotel, QuestionAnswer } from "@material-ui/icons";
+import Home from "@material-ui/icons/Home";
+import LocalHotel from "@material-ui/icons/LocalHotel";
+import QuestionAnswer from "@material-ui/icons/QuestionAnswer";
 import { IPageLink } from "./interfaces/page-link";
 
 
