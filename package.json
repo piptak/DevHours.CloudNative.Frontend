@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-cli serve --mode=development --env development --open --hot",
-    "build": "webpack --mode=production --env production --progress",
+    "start": "cross-env NODE_ENV=development webpack-cli serve --mode=development --env development --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --mode=production --env production --progress",
     "lint": "eslint src/**/*.{ts,tsx} --quiet --fix"
   },
   "repository": {
@@ -42,7 +42,8 @@
     "react-hook-form": "^7.12.2",
     "react-redux": "^7.2.4",
     "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^4.0.3"
   },
   "devDependencies": {
     "@types/fork-ts-checker-webpack-plugin": "^0.4.5",
@@ -54,7 +55,9 @@
     "@types/webpack-dev-server": "^4.1.0",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
+    "cross-env": "^7.0.3",
     "css-loader": "^6.2.0",
+    "dotenv-webpack": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.23.4",
     "eslint-plugin-react": "^7.24.0",

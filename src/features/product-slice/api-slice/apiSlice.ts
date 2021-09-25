@@ -8,7 +8,7 @@ import RoomsTable from '../../../types/RoomsTable';
 
 export const apiSlice = createApi({
     reducerPath: 'booking-api',
-    baseQuery: fetchBaseQuery({baseUrl: 'https://localhost:5001/api/'}),
+    baseQuery: fetchBaseQuery({baseUrl: process.env.REACT_APP_API_URL}),
     tagTypes: ['rooms', 'bookings'],
     endpoints: (build) => ({
         getRooms: build.query<RoomsTable, {skip: number, take: number}>({

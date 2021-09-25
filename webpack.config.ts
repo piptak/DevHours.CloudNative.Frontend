@@ -1,9 +1,10 @@
 import path from "path";
-import { Configuration as WebpackConfiguration, ContextReplacementPlugin, DefinePlugin } from "webpack";
+import { Configuration as WebpackConfiguration, ContextReplacementPlugin } from "webpack";
 import WebpackDevServer from "webpack-dev-server";
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import Dotenv from 'dotenv-webpack';
 import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer';
 
 interface Configuration extends WebpackConfiguration {
@@ -70,9 +71,8 @@ const webpackConfig = (): Configuration => ({
       // HtmlWebpackPlugin simplifies creation of HTML files to serve your webpack bundles
       template: "./public/index.html",
     }),
-    // DefinePlugin allows you to create global constants which can be configured at compile time
-    new DefinePlugin({
-      "process.env": process.env.production || !process.env.development,
+    new Dotenv({
+      path: `./environments/${process.env.NODE_ENV}.env`
     }),
     new ForkTsCheckerWebpackPlugin({
       // Speeds up TypeScript type checking and ESLint linting (by moving each to a separate process)
